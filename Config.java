@@ -1,73 +1,37 @@
-package DemoonExcelSheet;
+package ScreenShot;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.File;
 import java.io.IOException;
 
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.io.FileHandler;
 
 public class Config {
+	WebDriver driver;
 	
-	
-	public void readExcelsheet() {
-		try {
-			FileInputStream fis=new FileInputStream("C:\\SeleniumWorkSpace\\ExcelSheets\\Mydata.xlsx");
-			
-			XSSFWorkbook workbook=new  XSSFWorkbook(fis);
-			XSSFSheet sheet=workbook.getSheet("Sheet1");
-			XSSFRow row=sheet.getRow(1);
-			XSSFCell cell=row.getCell(1);
-			
-			System.out.println(cell.getStringCellValue());
-					
-		} catch (FileNotFoundException e) {
-			
-			e.printStackTrace();
-		} catch (Exception e) {
-			
-			e.printStackTrace();
+	public void driverSetting(String url) {
+		System.setProperty("webdriver.chrome.driver", "chromedriver.exe.exe");
+		driver=new ChromeDriver();
+		driver.get(url);
+		
 		}
-	}
 	
-	public void readAllData() {
+	public void takeScreenShot() {
+		File source=((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+		File target=new File("C:\\Users\\pwaware\\Desktop\\SeleniumWorkSpace\\ScreenShot\\PopupScreenshot.png");
+		
 		try {
-			FileInputStream fis=new FileInputStream("C:\\\\SeleniumWorkSpace\\\\ExcelSheets\\\\Mydata.xlsx");
-			
-			XSSFWorkbook workbook=new XSSFWorkbook(fis);
-			XSSFSheet sheet=workbook.getSheet("Sheet1");
-			int rowCount=sheet.getLastRowNum();
-			
-			for(int i=0;i<=rowCount;i++) {
-				XSSFRow row=sheet.getRow(i);
-				
-				int cellCount=row.getLastCellNum();
-				
-				for(int j=0;j<cellCount;j++) {
-					XSSFCell cell=row.getCell(j);
-					
-					if(j==0 && i==1) {
-						System.out.print(cell.getNumericCellValue()+"\t");
-					}
-					else {
-						System.out.print(cell.getStringCellValue()+"\t");
-					}
-					
-				
-			}
-				System.out.println();
-		
-		} 
-		
-	}
-		
-		catch (FileNotFoundException e) {
+			FileHandler.copy(source, target);
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-}
+	}
+	
+
 }
