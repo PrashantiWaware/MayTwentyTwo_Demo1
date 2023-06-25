@@ -1,50 +1,33 @@
-package FileAccess;
+package com.tka.utility;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.util.Properties;
-
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-public class config  {
+public class config {
 	WebDriver driver;
 	
 	public void driverSetting() {
 		System.setProperty("webdriver.chrome.driver", "chromedriver.exe.exe");
 		driver=new ChromeDriver();
-		driver.get(accessProperties());
-		
+		driver.get("file:///C:/Users/pwaware/javabykiran-Selenium-Softwares/Offline%20Website/index.html");
+	}
+
+	public WebDriver getDriver() {
+		return driver;
+	}
+
+	public void setDriver(WebDriver driver) {
+		this.driver = driver;
 	}
 	
+	public WebElement elementAccessByID(String id) {
+		return (driver.findElement(By.id(id)));
+	}
 	
-	
-	public String accessProperties() {
-		String strUrl=" ";
-		
-		
-		
-		try {
-			FileInputStream fis=
-					 new FileInputStream("C:\\SeleniumWorkSpace\\Configuration files\\config.properties");
-			
-			Properties props=new Properties();
-			props.load(fis);
-			System.out.println("Usernamr=> "+props.getProperty("username"));
-			System.out.println("Password=> "+props.getProperty("password"));
-			System.out.println("URL=> "+props.getProperty("url"));
-			
-			strUrl=props.getProperty("url");
-			
-			
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		return  strUrl;
-		
+	public WebElement elementAccessByXpath(String xpath) {
+		return (driver.findElement(By.xpath(xpath)));
 	}
 
 }
